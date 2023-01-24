@@ -1,19 +1,14 @@
 const fs = require('fs');
-const chalk = require('chalk');
-const marked = require('marked');
 
 const mdLinksRegex = /\[.+\]\(.*:\/\/.*\)/g;
-const linksInData = /\[.{4,40}\]/g;
 
-let fileContent = (paths) => { fs.readFile(paths, 'utf-8', (err, data) => {
-  if (err) throw err;
-  let dataLinks = chalk.bgMagenta(data.match(mdLinksRegex));
-  console.log(dataLinks.match(linksInData));
-  })
+
+const getLinksfromMD = (file) => {
+  const fileContent = fs.readFileSync(file, 'utf-8');
+  const markdownLinks = fileContent.match(mdLinksRegex);
+  return markdownLinks;
 }
 
-fileContent('README.md');
-
 module.exports = {
-  fileContent
+  getLinksfromMD
 };

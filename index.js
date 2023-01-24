@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('node:path');
 const chalk = require('chalk');
-const { fileContent } = require('./src/getFile.js');
+const fileContent = require('./src/getFile.js');
+const getURLInfo = require('./src/getLinks');
 
 
 const mdLinks = (paths) => {
