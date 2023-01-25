@@ -1,6 +1,6 @@
-const makeRequest = require('./utils')
+const { makeRequest } = require('./utils');
 
-const getURLInfo = (link, validate = false) => {
+const getURLInfo = (link, fileName, validate = false) => {
   const [urlPortion] = link.match(/\(.*:\/\/.*\)/g);
   const url = urlPortion.replace(/[()]/g, '');
   const [textPortion] = link.match(/\[.+\]/g);
@@ -10,6 +10,7 @@ const getURLInfo = (link, validate = false) => {
     const result = {
       href: url,
       text: text,
+      file: fileName,
       status: 0,
       ok: ''
     };
@@ -28,14 +29,13 @@ const getURLInfo = (link, validate = false) => {
   } else {
     return Promise.resolve({
       href: url,
-      text: text
+      text: text,
+      file: fileName
     })
   }
 }
 
-//console.log(getURLInfo('[Google](https://googlenotfound.com)', true));
-
-//getURLInfo('[Google](https://googlenotfound.com)', true).then((urlInfo) => console.log(urlInfo));
-
-module.exports = getURLInfo;
+module.exports = {
+  getURLInfo
+};
 

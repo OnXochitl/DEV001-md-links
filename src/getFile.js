@@ -12,3 +12,5 @@ const getLinksfromMD = (file) => {
 module.exports = {
   getLinksfromMD
 };
+
+// console.log(getLinksfromMD('getLinks.js'))

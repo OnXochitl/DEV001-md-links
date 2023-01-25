@@ -1,4 +1,4 @@
-const makeRequest = require('../src/utils');
+const  { makeRequest } = require('../src/utils');
 const getURLInfo = require('../src/getLinks');
 
 jest.mock('../src/utils');
