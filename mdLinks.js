@@ -43,10 +43,8 @@ const mdLinks = (filePath, options = { validate: false }) => {
 }
 
 // mdLinks('README.md', {validate: true}).then((linksInfo) => console.log(linksInfo));
-mdLinks('../DEV001-MD-LINKS', {validate: true}).then((linksInfo) => console.log(linksInfo));
+//mdLinks('../DEV001-MD-LINKS/prueba.md', {validate: true}).then((linksInfo) => console.log(linksInfo));
 
 module.exports = {
   mdLinks
 };
-
-

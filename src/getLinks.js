@@ -1,8 +1,15 @@
-const { makeRequest } = require('./utils');
+const { makeRequest, getHttpStatusCodeMessage } = require('./utils');
+
+//   const [urlPortion] = link.match(/\(.*:\/\/.*\)/g);
+//   const [url] = urlPortion.replace(/\[.*\]/g, '');
+//   const url2 = url.replace(/[\[()\]]/g, '');
+//   // const url2 = url.replace(/[\[\]]/g, '');
+//   const [textPortion] = link.match(/\[.+\]/g);
+//   const text = textPortion.replace(/[\[\]]/g, '');
 
 const getURLInfo = (link, fileName, validate = false) => {
-  const [urlPortion] = link.match(/\(.*:\/\/.*\)/g);
-  const url = urlPortion.replace(/[()]/g, '');
+  const urlPortion = link.replace(/\[.*\]/g, '');
+  const url = urlPortion.replace(/[\[()\]]/g, '');
   const [textPortion] = link.match(/\[.+\]/g);
   const text = textPortion.replace(/[\[\]]/g, '');
 
@@ -12,18 +19,15 @@ const getURLInfo = (link, fileName, validate = false) => {
       text: text,
       file: fileName,
       status: 0,
-      ok: ''
+      message: ''
     };
     return makeRequest(url).then((responseData) => {
-        result.status = responseData.status;
-        if (result.status >= 200 && result.status <= 399) {
-          result.ok = 'ok';
-        } else {
-          result.ok = 'fail';
-        }
-        return result;
+     
+      result.status = responseData.status;
+      result.message = getHttpStatusCodeMessage(responseData.status);
+      return result;
     }).catch((err) => {
-      result.ok = 'fail';
+      result.message = err.message;
       return result;
     })
   } else {

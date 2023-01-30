@@ -1,5 +1,5 @@
 const  { makeRequest } = require('../src/utils');
-const getURLInfo = require('../src/getLinks');
+const { getURLInfo } = require('../src/getLinks');
 
 jest.mock('../src/utils');
 
@@ -7,10 +7,11 @@ describe('getURLInfo', () => {
 
   it('should resolve the link info with validate = false', () => {
     expect(
-      getURLInfo('[Google](https://google.com)', false)
+      getURLInfo('[Google](https://google.com)', 'prueba.md', false)
     ).resolves.toStrictEqual({
       href: 'https://google.com',
-      text: 'Google'
+      text: 'Google',
+      file: 'prueba.md'
     })
   });
 
@@ -22,11 +23,12 @@ describe('getURLInfo', () => {
       href: 'https://google.com',
       text: 'Google',
       status: 301,
-      ok: 'ok'
+      file: 'prueba.md',
+      message: 'Moved Permanently'
     };
 
     makeRequest.mockImplementation(() => Promise.resolve(resp));
-    expect(getURLInfo('[Google](https://google.com)', true)).resolves.toStrictEqual(infoLink)
+    expect(getURLInfo('[Google](https://google.com)','prueba.md', true)).resolves.toStrictEqual(infoLink)
   });
 
   it('should validate a non existent url', () => {
@@ -37,11 +39,12 @@ describe('getURLInfo', () => {
       href: 'https://googlenotfound.com',
       text: 'Google',
       status: 404,
-      ok: 'fail'
+      file: 'prueba.md',
+      message: 'Not Found'
     };
 
     makeRequest.mockImplementation(() => Promise.resolve(resp));
-    expect(getURLInfo('[Google](https://googlenotfound.com)', true)).resolves.toStrictEqual(infoLink)
+    expect(getURLInfo('[Google](https://googlenotfound.com)', 'prueba.md', true)).resolves.toStrictEqual(infoLink)
   });
 
   it('should validate a url even if there is an error', () => {
@@ -52,11 +55,12 @@ describe('getURLInfo', () => {
       href: 'hffps://gogle.cm',
       text: 'Google',
       status: 0,
-      ok: 'fail'
+      file: 'prueba.md',
+      message: 'Not Found'
     };
 
     makeRequest.mockImplementation(() => Promise.reject(resp));
-    expect(getURLInfo('[Google](hffps://gogle.cm)', true)).resolves.toStrictEqual(infoLink)
+    expect(getURLInfo('[Google](hffps://gogle.cm)', 'prueba.md', true)).resolves.toStrictEqual(infoLink)
   })
 })
 
