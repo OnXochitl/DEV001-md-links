@@ -110,6 +110,24 @@ const isThisPathDirectory = (path) => fs.statSync(path).isDirectory();
 
 const getHttpStatusCodeMessage = (code) => httpStatusCodes[code];
 
+const stats = (links) => {
+  const linksUniques = new Set(links.map(link => link.href)).size;
+  return {
+    Total: links.length,
+    Uniques: linksUniques
+  }
+}
+
+const statsBroken = (links) => {
+  const linksUniques = new Set(links.map(link => link.href)).size;
+  const linksBroken = links.filter(link => link.ok === 'FAIL').length;
+  return {
+    Total: links.length,
+    Uniques: linksUniques,
+    Broken: linksBroken
+  }
+}
+
 // const getLinksInFile = (links, fileInfo, options) => {
 //   const promises = [];
 //   for (let k = 0; k < links.length; k++) {
@@ -129,4 +147,6 @@ module.exports = {
   readFileAsync,
   readDirectoryFiles,
   getHttpStatusCodeMessage,
+  stats,
+  statsBroken
 };

@@ -15,19 +15,26 @@ const getURLInfo = (link, fileName, validate = false) => {
 
   if (validate) {
     const result = {
-      href: url,
+      href: url, 
       text: text,
       file: fileName,
       status: 0,
-      message: ''
+      message: '',
+      ok: ''
     };
     return makeRequest(url).then((responseData) => {
      
       result.status = responseData.status;
       result.message = getHttpStatusCodeMessage(responseData.status);
+      if (result.status >= 200 && result.status <= 302) {
+        result.ok = 'OK';
+      } else {
+        result.ok = 'FAIL'
+      }
       return result;
     }).catch((err) => {
       result.message = err.message;
+      result.ok = 'FAIL'
       return result;
     })
   } else {

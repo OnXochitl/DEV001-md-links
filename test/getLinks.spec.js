@@ -1,4 +1,4 @@
-const  { makeRequest } = require('../src/utils');
+const { makeRequest, getHttpStatusCodeMessage } = require('../src/utils');
 const { getURLInfo } = require('../src/getLinks');
 
 jest.mock('../src/utils');
@@ -24,11 +24,13 @@ describe('getURLInfo', () => {
       text: 'Google',
       status: 301,
       file: 'prueba.md',
-      message: 'Moved Permanently'
+      message: 'Moved Permanently',
+      ok: 'OK'
     };
-
-    makeRequest.mockImplementation(() => Promise.resolve(resp));
-    expect(getURLInfo('[Google](https://google.com)','prueba.md', true)).resolves.toStrictEqual(infoLink)
+    
+    makeRequest.mockReturnValue(Promise.resolve(resp));
+    getHttpStatusCodeMessage.mockReturnValue('Moved Permanently');
+    expect(getURLInfo('[Google](https://google.com)', 'prueba.md', true)).resolves.toStrictEqual(infoLink)
   });
 
   it('should validate a non existent url', () => {
@@ -40,10 +42,12 @@ describe('getURLInfo', () => {
       text: 'Google',
       status: 404,
       file: 'prueba.md',
-      message: 'Not Found'
+      message: 'Not Found',
+      ok: 'FAIL'
     };
 
     makeRequest.mockImplementation(() => Promise.resolve(resp));
+    getHttpStatusCodeMessage.mockReturnValue('Not Found');
     expect(getURLInfo('[Google](https://googlenotfound.com)', 'prueba.md', true)).resolves.toStrictEqual(infoLink)
   });
 
@@ -56,10 +60,11 @@ describe('getURLInfo', () => {
       text: 'Google',
       status: 0,
       file: 'prueba.md',
-      message: 'Not Found'
+      message: 'Protocol Not Found',
+      ok: 'FAIL'
     };
 
-    makeRequest.mockImplementation(() => Promise.reject(resp));
+    makeRequest.mockImplementation(() => Promise.reject(new Error('Protocol Not Found')));
     expect(getURLInfo('[Google](hffps://gogle.cm)', 'prueba.md', true)).resolves.toStrictEqual(infoLink)
   })
 })

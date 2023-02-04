@@ -3,7 +3,7 @@ const { getURLInfo } = require('./src/getLinks');
 
 const mdLinks = (filePath, options = { validate: false }) => {
   return new Promise((resolve, reject) => {
-    const mdLinksRegex = /\[.+\]\(.*:\/\/.*\)/g;
+    const mdLinksRegex = /\[.*\]\(\w*:\/\/\w*\.\w*\W?[\w\/-]*\)/g;
 
     if (isThisPathDirectory(filePath)) {
       readDirectoryFiles(filePath).then((files) => {
@@ -27,6 +27,9 @@ const mdLinks = (filePath, options = { validate: false }) => {
         });
       });
     } else {
+      if (!filePath.endsWith('.md')) {
+        return reject('Please, put a file with extension "md" (Example: file.md)')
+      }
       const fileName = filePath;
       readFileAsync(fileName).then(fileInfo => {
         const links = fileInfo.data.match(mdLinksRegex);
@@ -42,8 +45,8 @@ const mdLinks = (filePath, options = { validate: false }) => {
   });
 }
 
-// mdLinks('README.md', {validate: true}).then((linksInfo) => console.log(linksInfo));
-//mdLinks('../DEV001-MD-LINKS/prueba.md', {validate: true}).then((linksInfo) => console.log(linksInfo));
+//mdLinks('README.md', {validate: true}).then((linksInfo) => console.log(linksInfo));
+//mdLinks('../DEV001-MD-LINKS', {validate: true}).then((linksInfo) => console.log(linksInfo));
 
 module.exports = {
   mdLinks
