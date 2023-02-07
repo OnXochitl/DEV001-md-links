@@ -1,5 +1,4 @@
 const { mdLinks } = require('./mdLinks');
-const chalk = require('chalk');
 const { stats, statsBroken } = require('./src/utils')
 
 const options = process.argv;
@@ -9,18 +8,30 @@ const optionValidate = options.includes('--validate');
 const optionStats = options.includes('--stats');
 const optionsHelp = options.includes('--help');
 
-
-// console.log(options)
+const getURLInfoString = (infoURL, showHTTPInfo = false) => {
+  const { file, href, text } = infoURL;
+  if (showHTTPInfo) {
+    const { ok, status, message } = infoURL;
+    return `${file} ${href} ${ok} ${status} ${message} ${text}`;
+  }
+  return `${file} ${href} ${text}`;
+}; 
 
 const cli = (path, options) => {
-  if (path == undefined) {
-    console.log(chalk.bgRedBright('escriba de nuevo'));
-  } else if (optionsHelp) {
-    console.log(chalk.bgGreen('escribio ayuda'));
+  if (optionsHelp) {
+    console.log('Welcome to mdLinks, is easy to use, just need the path and use options, like: \n--validate \n--stats \n--stats --validate \nor just the path');
+  } else if (!optionValidate && !optionStats){
+    mdLinks(path, { validate: false })
+      .then((linksInfo) => {
+        linksInfo.forEach((URLInfo)=> console.log(getURLInfoString(URLInfo, false)))
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   } else if (optionValidate && !optionStats) {
     mdLinks(path, { validate: true })
       .then((linksInfo) => {
-        console.log(linksInfo);
+        linksInfo.forEach((URLInfo)=> console.log(getURLInfoString(URLInfo, true)))
       })
       .catch((err) => {
         console.log(err);
@@ -28,7 +39,9 @@ const cli = (path, options) => {
   } else if (optionStats && !optionValidate) {
     mdLinks(path, { validate: false })
       .then((linksInfo) => {
-        console.log(stats(linksInfo));
+        const { total, uniques } = stats(linksInfo);
+        console.log(`Total: ${total}`);
+        console.log(`Unique: ${uniques}`)
       })
       .catch((err) => {
         console.log(err);
@@ -36,7 +49,10 @@ const cli = (path, options) => {
   } else if (optionValidate && optionStats) {
     mdLinks(path, { validate: true })
       .then((linksInfo) => {
-        console.log(statsBroken(linksInfo));
+        const { total, uniques, broken} = statsBroken(linksInfo);
+        console.log(`Total: ${total}`);
+        console.log(`Unique: ${uniques}`);
+        console.log(`Broken: ${broken}`);
       })
       .catch((err) => {
         console.log(err);

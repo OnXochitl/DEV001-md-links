@@ -58,40 +58,63 @@ describe('mdLinks', () => {
   });
 
   it('debería regresar objetos con información de un directorio', () => {
-    const fileInsideDirectory = ['caca.md'];
-    const cacaContent = '[Caca](https://caca.com)';
 
-    fs.existsSync.mockReturnValue(true);
-    isThisPathDirectory.mockReturnValue(true);
-    readDirectoryFiles.mockResolvedValue(fileInsideDirectory);
-    readFileAsync.mockResolvedValue({fileName: 'caca.md', data: cacaContent});
-    
-    makeRequest.mockResolvedValue(
-      {
-        data: 'Plain Text',
-        status: 200
-      }
-    );
+    const fileInsideDirectory = ['text.md'];
 
-    getHttpStatusCodeMessage.mockReturnValue('OK');
+    const GoogleContent = '[Google](https://google.com)';
 
-    const cacaInfo = {
-      href: 'https://caca.com', 
-      text: 'Caca',
-      file: 'caca.md',
-      status: 200,
+    const dataInfo = {
+      data: 'Plain Text',
+      status: 301
+    };
+
+    const textInfo = {
+      href: 'https://google.com', 
+      text: 'Google',
+      file: 'text.md',
+      status: 301,
       message: 'OK',
       ok: 'OK'
     };
 
-    expect(mdLinks('validPath/', {validate: true})).resolves.toStrictEqual([cacaInfo]);
+    const fileContent = {
+      fileName: 'text.md', data: GoogleContent
+    }
+
+    fs.existsSync.mockReturnValue(true);
+    isThisPathDirectory.mockReturnValue(true);
+    readDirectoryFiles.mockResolvedValue(fileInsideDirectory);
+    readFileAsync.mockResolvedValue(fileContent);
+    makeRequest.mockResolvedValue(dataInfo);
+    getHttpStatusCodeMessage.mockReturnValue('OK');
+
+    expect(mdLinks('validPath/', {validate: true})).resolves.toStrictEqual([textInfo]);
   });
 
-  /*
-  it('deberia regresar los status de los links de dos archivos', () => {});
+  // it('deberia regresar los status de los links de dos archivos', () => {});
 
-  it('debería regresar objetos con información de un directorio usando validate false', () => {});
+  it('debería regresar objetos con información de un directorio usando validate false', () => {
 
-  it('deberia regresar los status de los links de dos archivos usando valiodate false', () => {});
-  */
+    const fileInsideDirectory = ['text.md'];
+
+    const GoogleContent = '[Google](https://google.com)';
+
+    const textInfo = {
+      href: 'https://google.com', 
+      text: 'Google',
+      file: 'text.md',
+    };
+
+    const fileContent = {
+      fileName: 'text.md', data: GoogleContent
+    };
+
+    fs.existsSync.mockReturnValue(true);
+    isThisPathDirectory.mockReturnValue(true);
+    readDirectoryFiles.mockResolvedValue(fileInsideDirectory);
+    readFileAsync.mockResolvedValue(fileContent);
+    expect(mdLinks('validPath/', {validate: false})).resolves.toStrictEqual([textInfo]);
+  });
+
+  // it('deberia regresar los status de los links de dos archivos usando valiodate false', () => {});
 });

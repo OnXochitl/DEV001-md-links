@@ -43,7 +43,8 @@ const mdLinks = (filePath, options = { validate: false }) => {
           promises.push(getURLInfo(links[i], fileName, options.validate))
         }
         Promise.all(promises).then((info) => {
-          resolve(info);
+          infoInString = JSON.stringify(info);
+          resolve(info); 
         });
       });
     }

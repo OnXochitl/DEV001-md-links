@@ -29,7 +29,7 @@ const getURLInfo = (link, fileName, validate = false) => {
       if (result.status >= 200 && result.status <= 302) {
         result.ok = 'OK';
       } else {
-        result.ok = 'FAIL'
+        result.ok = 'FAIL';
       }
       return result;
     }).catch((err) => {
