@@ -1,12 +1,5 @@
 const { makeRequest, getHttpStatusCodeMessage } = require('./utils');
 
-//   const [urlPortion] = link.match(/\(.*:\/\/.*\)/g);
-//   const [url] = urlPortion.replace(/\[.*\]/g, '');
-//   const url2 = url.replace(/[\[()\]]/g, '');
-//   // const url2 = url.replace(/[\[\]]/g, '');
-//   const [textPortion] = link.match(/\[.+\]/g);
-//   const text = textPortion.replace(/[\[\]]/g, '');
-
 const getURLInfo = (link, fileName, validate = false) => {
   const urlPortion = link.replace(/\[.*\]/g, '');
   const url = urlPortion.replace(/[\[()\]]/g, '');

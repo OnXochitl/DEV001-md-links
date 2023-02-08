@@ -115,7 +115,7 @@ const stats = (links) => {
   return {
     total: links.length,
     uniques: linksUniques
-  }
+  };
 }
 
 const statsBroken = (links) => {
@@ -127,19 +127,6 @@ const statsBroken = (links) => {
     broken: linksBroken
   }
 }
-
-// const getLinksInFile = (links, fileInfo, options) => {
-//   const promises = [];
-//   for (let k = 0; k < links.length; k++) {
-//     promises.push(getURLInfo(links[k], fileInfo, options))
-//   }
-//   return promises;
-// }
-
-
-// console.log(isThisPathDirectory('../DEV001-MD-LINKS'));
-// console.log(isThisPathFile('../DEV001-MD-LINKS'));
-// console.log(readFilesinDirectory('../DEV001-MD-LINKS'));
 
 module.exports = {
   makeRequest,

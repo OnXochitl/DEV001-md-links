@@ -7,7 +7,7 @@ describe('getURLInfo', () => {
 
   it('should resolve the link info with validate = false', () => {
     expect(
-      getURLInfo('[Google](https://google.com)', 'prueba.md', false)
+      getURLInfo('[Google](https://google.com)', 'prueba.md')
     ).resolves.toStrictEqual({
       href: 'https://google.com',
       text: 'Google',
