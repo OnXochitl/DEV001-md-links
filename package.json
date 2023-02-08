@@ -1,12 +1,37 @@
 {
   "name": "md-links",
-  "version": "0.1.0",
+  "description": "",
+  "version": "1.0.0",
   "engines": {
     "node": ">=16.x"
+  },
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OnXochitl/md-links-Xochitl"
   },
   "bootcamp": {
     "createdAt": "2022-11-16T21:49:06.371Z",
     "version": "5.4.0",
     "commit": "14aeca030be012fc987dcb1c604bbbcb0fdd325e"
-  }
+  },
+  "keywords": [
+    "markdown links",
+    "md-Links",
+    "links"
+  ],
+  "author": "OnXochitl",
+  "license": "ISC",
+  "bin": {
+    "md-links": "./cli.js"
+  },
+  "bugs": {
+    "url": "https://github.com/OnXochitl/md-links-Xochitl/issues"
+  },
+  "devDependencies": {
+    "jest": "^29.4.2"
+  },
+  "homepage": "https://github.com/OnXochitl/md-links-Xochitl#readme"
 }
