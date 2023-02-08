@@ -1,10 +1,11 @@
 {
-  "name": "md-links",
+  "name": "md-links-x",
   "description": "",
   "version": "1.0.0",
   "engines": {
     "node": ">=16.x"
   },
+  "main": "./bin/index.js",
   "scripts": {
     "test": "jest --coverage"
   },
@@ -24,8 +25,8 @@
   ],
   "author": "OnXochitl",
   "license": "ISC",
-  "bin": {
-    "md-links": "./cli.js"
+  "bin": {  
+    "md-links-x": "./bin/index.js"  
   },
   "bugs": {
     "url": "https://github.com/OnXochitl/md-links-Xochitl/issues"
